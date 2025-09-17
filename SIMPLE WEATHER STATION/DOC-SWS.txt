@@ -1,0 +1,108 @@
+CONNECTIONS: 
+
+
+ARDUINO 5V TO + IN BREADBOARD
+ARDUINO GROUND TO - IN BREADBOARD
+
+DHT11 VCC TO + IN BREADBOARD 
+DHT11 GROUND TO - IN BREADBOARD 
+DHT11 DATA TO a DIGITAL PIN OF YOUR CHOICE IN ARDUINO ( DIGITAL PIN 2 IN MY CASE)
+
+ADD A PULL 5K UP RESISTOR IN BETWEEN THE DATA PIN IN THE DHT11 AND THE ARDUINO (IF YOUR WIRE IS LESS THAN 20 METERS) AS PER DATASHEET
+
+WHEN THE I2C ADAPTER VCC,GROUND,ADS,SCL PINS ARE FACING YOUR LEFT SIDE, INSERT THE 16 PINS IN THE BREADBOARD FACING YOU
+THEN LINE UP THE LCD'S 16 PINS TO THE ADAPTER'S 16 PINS
+
+I2C ADAPTER VCC TO + IN BREADBOARD
+I2C ADAPTER GROUND TO - IN BREADBOARD
+I2C ADAPTER ADS TO A4 IN ARDUINO
+I2C ADAPTER SCL TO A5 IN ARDUINO
+
+WHILE THE LCD IS FACING YOU LINE UP ITs PINS WITH THE I2C ADAPTER PINS
+
+
+CONNECT THE RAIN SENSOR TWO PINS TO THE MH-SENSOR-SERIES (ADC) TWO PINS (THERE IS NO POLARITY TO THEM)
+THEN CONNECT THE 4PINS OF THE MH-SENSOR-SERIES (ADC) :
+VCC TO + IN THE BREADBOARD
+GND TO - IN THE BREADBOARD 
+AO TO A0 IN THE ARDUINO 
+
+
+
+LIBRARIES:
+
+1-#include <LiquidCrystal_I2C.h>
+
+a library for controlling 16x2 or 20x4 LCDs via I2C.
+
+COMMANDS:
+
+LiquidCrystal_I2C lcd(0x27, 16, 2); :
+
+defines the LCD address and size 
+address: 0x27
+size: 16 columns by 2 rows 
+
+to find you lcd's address run the code Named FindMYLcdAddress in your Arduino IDE then do the following steps:
+
+Navigate to "TOOLS" Then "Serial Monitor"
+a repeating text will appear at your Device's screen that either include the address or say "NO I2C DEVICE FOUND"
+if thats the case, check your wiring or your components for faults
+
+lcd.init();
+
+lcd.print():
+Prints Texts in between " ", EX: lcd.print("hello world");
+or prints values directly, EX: lcd.print(SENSOR_VALUE);
+
+lcd.setCursor():
+sets the cursor at the Column and row you need
+EX: lcd.setCursor(6,0):  column 6 row 0
+EX: lcd.setCursor(6,1):  column 6 row 1
+
+NOTE:
+Range: lcd.setCursor(0,0) - lcd.setCursor(16,1)
+ 
+lcd.clear():
+Clears everything Written on the lcd
+
+lcd.backlight():
+turns on the backlight
+
+
+
+
+
+2-#include "DHT.h"
+
+Reads data from DHT11 or DHT22 temperature and humidity sensors.
+Handles the precise timing required to communicate with the sensor (the DHT sensors are picky about timing).
+
+COMMANDS:
+
+DHT dht(PIN,type);
+
+
+dht.begin();
+
+dht.readTemperature();
+Reads Temperature from the sensor
+
+dht.readHumidity();
+Reads Humidity from the sensor
+
+____________________________________
+
+float rainINprecentage = map(RAINRAWREADING, 0, 1023, 100, 0); // converts THE 10 BIT ANALOG VALUE FROM THE SENSOR TO 8BIT VALUE IN PRECENTAGE
+____________________________________
+
+The rain sensor is a resistive copper pad and its resistance decreases when water is present
+When dry the analog output is near 5V and as water droplets increase the output voltage decreases
+
+
+
+
+
+
+
+
