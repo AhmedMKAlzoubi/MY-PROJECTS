@@ -1,0 +1,77 @@
+CONNECTIONS: 
+
+
+
+ARDUINO 5V TO + IN BREADBOARD
+ARDUINO GROUND TO - IN BREADBOARD
+
+WHEN THE I2C ADAPTER VCC,GROUND,ADS,SCL PINS ARE FACING YOUR LEFT SIDE, INSERT THE 16 PINS IN THE BREADBOARD FACING YOU
+THEN LINE UP THE LCD'S 16 PINS TO THE ADAPTER'S 16 PINS
+
+I2C ADAPTER VCC TO + IN BREADBOARD
+I2C ADAPTER GROUND TO - IN BREADBOARD
+I2C ADAPTER SDA TO A4 IN ARDUINO
+I2C ADAPTER SCL TO A5 IN ARDUINO
+
+WHILE THE LCD IS FACING YOU LINE UP ITs PINS WITH THE I2C ADAPTER PINS
+
+ARDUINO PIN 3 OUTPUT TO ANY Resistor valued from 200 ohm to 400 ohm -> Resistor to RED LED -> GROUND
+ARDUINO PIN 4 OUTPUT TO ANY Resistor valued from 200 ohm to 400 ohm -> Resistor to Green LED -> GROUND
+ARDUINO PIN 5 OUTPUT TO BUZZER -> BUZZER TO GROUND
+ARDUINO PIN 5 INPUT FROM PUSH BUTTON + pulldown 10k ohm resistor to ground -> PUHS BUTTON TO +5V
+
+
+LIBRARIES:
+
+1-#include <LiquidCrystal_I2C.h>
+
+a library for controlling 16x2 or 20x4 LCDs via I2C.
+
+COMMANDS:
+
+LiquidCrystal_I2C lcd(0x27, 16, 2); :
+
+defines the LCD address and size 
+address: 0x27
+size: 16 columns by 2 rows 
+
+to find you lcd's address run the code Named FindMYLcdAddress in your Arduino IDE then do the following steps:
+
+Navigate to "TOOLS" Then "Serial Monitor"
+a repeating text will appear at your Device's screen that either include the address or say "NO I2C DEVICE FOUND"
+if thats the case, check your wiring or your components for faults
+
+lcd.init();
+
+lcd.print():
+Prints Texts in between " ", EX: lcd.print("hello world");
+or prints values directly, EX: lcd.print(SENSOR_VALUE);
+
+lcd.setCursor():
+sets the cursor at the Column and row you need
+EX: lcd.setCursor(6,0):  column 6 row 0
+EX: lcd.setCursor(6,1):  column 6 row 1
+
+NOTE:
+Range: lcd.setCursor(0,0) - lcd.setCursor(16,1)
+ 
+lcd.clear():
+Clears everything Written on the lcd
+
+lcd.backlight():
+turns on the backlight
+
+------------------------------
+
+Alternative to digitalWrite(BUZZERPIN,LOW/HIGH);
+
+YOU COULD USE THE BUILT IN FUNCTION:
+
+tone(pin, frequane, duration in ms);
+and
+noTone(pin);
+
+
+
+
+
